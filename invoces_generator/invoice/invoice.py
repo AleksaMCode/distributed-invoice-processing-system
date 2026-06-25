@@ -74,7 +74,7 @@ def generate_one(settings: Settings, faker: Faker) -> tuple[str, bytes]:
     file_name = f"invoice-{invoice_uuid}.xml"
 
     client_name = faker.company()
-    ein = "".join(random.choices("0123456789", k=9))
+    ein = "".join(random.choices("0123456789", k=13))
     client_email = faker.company_email()
 
     item_count = random.randint(settings.min_items, settings.max_items)
