@@ -1,0 +1,34 @@
+name: Java Format Check
+
+on:
+  pull_request:
+    paths:
+      - "watcher_service/**"
+      - ".github/workflows/watcher-java-format-check.yml"
+  push:
+    branches:
+      - master
+    paths:
+      - "watcher_service/**"
+      - ".github/workflows/watcher-java-format-check.yml"
+
+jobs:
+  format-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: Spotless format check
+        working-directory: watcher_service
+        run: ./gradlew spotlessCheck

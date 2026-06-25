@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<invoice><id>INV-2026-79e1e58c-6b25-4cb8-8390-3fb504a37b1a</id><client><name>Fox and Sons</name><jib>189692520</jib><email>brett19@chan.com</email></client><date>2026-06-25</date><currency>EUR</currency><items><item><description>Data analytics dashboard</description><quantity>1</quantity><unitPrice>817.70</unitPrice></item><item><description>Mobile app feature delivery</description><quantity>15</quantity><unitPrice>4806.25</unitPrice></item></items></invoice>

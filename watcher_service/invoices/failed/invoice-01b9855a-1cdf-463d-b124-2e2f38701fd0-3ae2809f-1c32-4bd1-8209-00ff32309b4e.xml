@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<invoice><id>INV-2026-f747ce2f-9102-4f05-ac16-6aad8c282a60</id><client><name>Lozano-Mccormick</name><jib>976607815</jib><email>stephanieperkins@allen.com</email></client><date>2026-06-25</date><currency>EUR</currency><items><item><description>CI/CD pipeline automation</description><quantity>2</quantity><unitPrice>4929.60</unitPrice></item></items></invoice>
