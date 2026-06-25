@@ -3,12 +3,12 @@ from __future__ import annotations
 import random
 import uuid
 from datetime import datetime
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import ROUND_HALF_UP, Decimal
+from xml.etree.ElementTree import Element, SubElement, tostring
 from zoneinfo import ZoneInfo
 
 from faker import Faker
 from util.settings import Settings
-from xml.etree.ElementTree import Element, SubElement, tostring
 
 DEFAULT_ITEMS = [
     "Frontend development",

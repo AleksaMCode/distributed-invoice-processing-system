@@ -38,7 +38,7 @@ def load_settings() -> Settings:
     if not output_dir.is_absolute():
         output_dir = (REPO_ROOT / output_dir).resolve()
 
-    settings =  Settings(
+    settings = Settings(
         output_dir=output_dir,
         timezone=_env("TIMEZONE", "Europe/Paris"),
         sleep_seconds=float(_env("SLEEP_SECONDS", "1")),
@@ -55,7 +55,10 @@ def load_settings() -> Settings:
         raise ValueError("Invalid item range configuration")
     if settings.min_qty < 1 or settings.max_qty < settings.min_qty:
         raise ValueError("Invalid quantity range configuration")
-    if settings.min_unit_price <= 0 or settings.max_unit_price < settings.min_unit_price:
+    if (
+        settings.min_unit_price <= 0
+        or settings.max_unit_price < settings.min_unit_price
+    ):
         raise ValueError("Invalid unit price range configuration")
     if settings.sleep_seconds < 0:
         raise ValueError("SLEEP_SECONDS must be >= 0")
