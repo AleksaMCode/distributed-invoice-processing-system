@@ -69,8 +69,9 @@ def build_invoice_xml(
 
 def generate_one(settings: Settings, faker: Faker) -> tuple[str, bytes]:
     now = datetime.now(ZoneInfo(settings.timezone))
-    invoice_id = f"INV-{now.year}-{uuid.uuid4()}"
-    file_name = f"invoice-{uuid.uuid4()}.xml"
+    invoice_uuid = uuid.uuid4()
+    invoice_id = f"INV-{now.year}-{invoice_uuid}"
+    file_name = f"invoice-{invoice_uuid}.xml"
 
     client_name = faker.company()
     ein = "".join(random.choices("0123456789", k=9))
