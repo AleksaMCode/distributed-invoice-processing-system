@@ -2,15 +2,13 @@ name: Java Format Check
 
 on:
   pull_request:
+    branches: [master]
     paths:
       - "watcher_service/**"
-      - ".github/workflows/watcher-java-format-check.yml"
   push:
-    branches:
-      - master
+    branches: [master]
     paths:
       - "watcher_service/**"
-      - ".github/workflows/watcher-java-format-check.yml"
 
 jobs:
   format-check:
