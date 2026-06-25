@@ -1,6 +1,6 @@
 # Invoice Generator Service
 
-Python generator that continuously creates random invoice XML files and writes
+Invoice generator that continuously creates random invoice XML files and writes
 them to the watcher inbox path.
 
 ## Configuration
@@ -23,4 +23,4 @@ pip install -r requirements.txt
 python main.py
 ```
 
-Runs indefinitely until terminated (Ctrl+C).
+Runs indefinitely until terminated (<kbd>Ctrl</kbd>+<kbd>C</kbd>).
