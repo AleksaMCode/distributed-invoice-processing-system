@@ -1,0 +1,36 @@
+name: Python Tests
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - "invoces_generator/**/*.py"
+  push:
+    branches: [master]
+    paths:
+      - "invoces_generator/**/*.py"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.13"]
+
+    env:
+      ENV: test
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && python -m pip install pycryptodome sentry_sdk dotenv tenacity sqlalchemy scapy yaspin
+
+      - name: Run tests (unittest discover)
+        run: python -m unittest discover -v

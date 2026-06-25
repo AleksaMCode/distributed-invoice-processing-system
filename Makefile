@@ -9,7 +9,7 @@ else
 	PYTHON := python3
 endif
 
-.PHONY: watcher-build watcher-run watcher-format generator-install generator-run precommit-install generator-format
+.PHONY: watcher-build watcher-run watcher-format generator-install generator-run precommit-install generator-format generator-test
 
 watcher-build:
 ifeq ($(OS),Windows_NT)
@@ -64,3 +64,6 @@ generator-run:
 
 generator-format:
 	pre-commit run --all-files
+
+test:
+	@$(PYTHON) -m unittest discover -s "$(GENERATOR_DIR)"
