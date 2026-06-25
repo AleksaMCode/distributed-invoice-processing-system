@@ -4,11 +4,13 @@ import random
 import uuid
 from datetime import datetime
 from decimal import ROUND_HALF_UP, Decimal
+from typing import TYPE_CHECKING
 from xml.etree.ElementTree import Element, SubElement, tostring
 from zoneinfo import ZoneInfo
 
-from faker import Faker
-from util.settings import Settings
+if TYPE_CHECKING:
+    from faker import Faker
+    from util.settings import Settings
 
 DEFAULT_ITEMS = [
     "Frontend development",
@@ -26,11 +28,11 @@ DEFAULT_ITEMS = [
 ]
 
 
-def money(value: Decimal) -> str:
+def _get_price(value: Decimal) -> str:
     return str(value.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
 
 
-def random_price(min_price: Decimal, max_price: Decimal) -> Decimal:
+def _get_random_price(min_price: Decimal, max_price: Decimal) -> Decimal:
     sampled = Decimal(str(random.uniform(float(min_price), float(max_price))))
     return sampled.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
@@ -59,7 +61,7 @@ def build_invoice_xml(
         item_node = SubElement(items_node, "item")
         SubElement(item_node, "description").text = description
         SubElement(item_node, "quantity").text = str(quantity)
-        SubElement(item_node, "unitPrice").text = money(unit_price)
+        SubElement(item_node, "unitPrice").text = _get_price(unit_price)
 
     xml_body = tostring(root, encoding="utf-8")
     return b'<?xml version="1.0" encoding="UTF-8"?>\n' + xml_body + b"\n"
@@ -80,7 +82,7 @@ def generate_one(settings: Settings, faker: Faker) -> tuple[str, bytes]:
     items: list[tuple[str, int, Decimal]] = []
     for description in item_descriptions:
         quantity = random.randint(settings.min_qty, settings.max_qty)
-        unit_price = random_price(settings.min_unit_price, settings.max_unit_price)
+        unit_price = _get_random_price(settings.min_unit_price, settings.max_unit_price)
         items.append((description, quantity, unit_price))
 
     xml_bytes = build_invoice_xml(
