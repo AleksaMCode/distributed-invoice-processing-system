@@ -29,7 +29,7 @@ invoices/
 __pycache__/
 *.py[codz]
 *$py.class
-
+.idea/
 # C extensions
 *.so
 
