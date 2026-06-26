@@ -9,7 +9,7 @@ else
 	PYTHON := python3
 endif
 
-.PHONY: watcher-build watcher-run watcher-format generator-install generator-run precommit-install generator-format generator-test
+.PHONY: watcher-build watcher-run watcher-format watcher-test generator-install generator-run precommit-install generator-format generator-test test
 
 watcher-build:
 ifeq ($(OS),Windows_NT)
@@ -65,5 +65,24 @@ generator-run:
 generator-format:
 	pre-commit run --all-files
 
-test:
+watcher-test:
+ifeq ($(OS),Windows_NT)
+	@if exist "$(GRADLEW)" ( \
+		"$(GRADLEW)" -p "$(WATCHER_DIR)" test \
+	) else ( \
+		gradle -p "$(WATCHER_DIR)" test \
+	)
+else
+	@if [ -f "$(GRADLEW)" ]; then \
+		"$(GRADLEW)" -p "$(WATCHER_DIR)" test; \
+	else \
+		gradle -p "$(WATCHER_DIR)" test; \
+	fi
+endif
+
+generator-test:
 	@$(PYTHON) -m unittest discover -s "$(GENERATOR_DIR)"
+
+test:
+	@$(MAKE) watcher-test
+	@$(MAKE) generator-test
