@@ -1,4 +1,4 @@
-name: Java Format Check
+name: Java Tests
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ on:
       - "watcher_service/**"
 
 jobs:
-  format-check:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,6 +30,6 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x watcher_service/gradlew
 
-      - name: Spotless format check
+      - name: Run watcher tests
         working-directory: watcher_service
-        run: ./gradlew spotlessCheck
+        run: ./gradlew test
