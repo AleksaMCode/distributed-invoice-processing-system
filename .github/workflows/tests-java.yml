@@ -5,10 +5,14 @@ on:
     branches: [master]
     paths:
       - "watcher_service/**"
+      - "validator_service/**"
+      - ".github/workflows/tests-java.yml"
   push:
     branches: [master]
     paths:
       - "watcher_service/**"
+      - "validator_service/**"
+      - ".github/workflows/tests-java.yml"
 
 jobs:
   test:
@@ -28,8 +32,14 @@ jobs:
         uses: gradle/actions/wrapper-validation@v4
 
       - name: Make Gradle wrapper executable
-        run: chmod +x watcher_service/gradlew
+        run: |
+          chmod +x watcher_service/gradlew
+          chmod +x validator_service/gradlew
 
       - name: Run watcher tests
         working-directory: watcher_service
+        run: ./gradlew test
+
+      - name: Run validator tests
+        working-directory: validator_service
         run: ./gradlew test
