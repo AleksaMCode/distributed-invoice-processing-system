@@ -12,6 +12,7 @@ Important defaults:
 - `OUTPUT_DIR=./watcher_service/invoices/inbox`
 - `TIMEZONE=Europe/Paris`
 - `SLEEP_SECONDS=1`
+- `CURRENCIES=BAM,EUR,USD,CHF,GBP`
 - `MIN_ITEMS=1`, `MAX_ITEMS=6`
 - `MIN_QTY=1`, `MAX_QTY=20`
 - `MIN_UNIT_PRICE=50.00`, `MAX_UNIT_PRICE=5000.00`

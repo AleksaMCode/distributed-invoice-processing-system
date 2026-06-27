@@ -5,10 +5,15 @@ on:
     branches: [master]
     paths:
       - "watcher_service/**"
+      - "validator_service/**"
+      - ".github/workflows/format-check-java.yml"
   push:
     branches: [master]
     paths:
       - "watcher_service/**"
+      - "validator_service/**"
+      - ".github/workflows/format-check-java.yml"
+
 
 jobs:
   format-check:
@@ -28,8 +33,14 @@ jobs:
         uses: gradle/actions/wrapper-validation@v4
 
       - name: Make Gradle wrapper executable
-        run: chmod +x watcher_service/gradlew
+        run: |
+          chmod +x watcher_service/gradlew
+          chmod +x validator_service/gradlew
 
-      - name: Spotless format check
+      - name: Spotless format check (watcher)
         working-directory: watcher_service
+        run: ./gradlew spotlessCheck
+
+      - name: Spotless format check (validator)
+        working-directory: validator_service
         run: ./gradlew spotlessCheck
