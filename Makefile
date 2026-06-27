@@ -13,7 +13,7 @@ else
 	PYTHON := python3
 endif
 
-.PHONY: watcher-build watcher-run watcher-format watcher-test validator-build validator-run validator-format generator-install generator-run precommit-install generator-format generator-test format test
+.PHONY: watcher-build watcher-run watcher-format watcher-test validator-build validator-run validator-format validator-test generator-install generator-run precommit-install generator-format generator-test format test
 
 watcher-build:
 ifeq ($(OS),Windows_NT)
@@ -120,6 +120,21 @@ else
 	fi
 endif
 
+validator-test:
+ifeq ($(OS),Windows_NT)
+	@if exist "$(VALIDATOR_GRADLEW)" ( \
+		"$(VALIDATOR_GRADLEW)" -p "$(VALIDATOR_DIR)" test \
+	) else ( \
+		gradle -p "$(VALIDATOR_DIR)" test \
+	)
+else
+	@if [ -f "$(VALIDATOR_GRADLEW)" ]; then \
+		"$(VALIDATOR_GRADLEW)" -p "$(VALIDATOR_DIR)" test; \
+	else \
+		gradle -p "$(VALIDATOR_DIR)" test; \
+	fi
+endif
+
 generator-install:
 	@$(PYTHON) -m pip install -r "$(GENERATOR_DIR)/requirements.txt"
 
@@ -134,6 +149,7 @@ generator-test:
 
 test:
 	@$(MAKE) watcher-test
+	@$(MAKE) validator-test
 	@$(MAKE) generator-test
 
 format:
