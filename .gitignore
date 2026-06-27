@@ -13,6 +13,7 @@
 # Package Files #
 *.jar
 !watcher_service/gradle/wrapper/gradle-wrapper.jar
+!validator_service/gradle/wrapper/gradle-wrapper.jar
 *.war
 *.nar
 *.ear
