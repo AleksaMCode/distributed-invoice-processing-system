@@ -43,6 +43,7 @@ def build_invoice_xml(
     ein: str,
     client_email: str,
     invoice_date: str,
+    currency: str,
     items: list[tuple[str, int, Decimal]],
 ) -> bytes:
     root = Element("invoice")
@@ -54,7 +55,7 @@ def build_invoice_xml(
     SubElement(client, "email").text = client_email
 
     SubElement(root, "date").text = invoice_date
-    SubElement(root, "currency").text = "EUR"
+    SubElement(root, "currency").text = currency
 
     items_node = SubElement(root, "items")
     for description, quantity, unit_price in items:
@@ -76,6 +77,7 @@ def generate_one(settings: Settings, faker: Faker) -> tuple[str, bytes]:
     client_name = faker.company()
     ein = "".join(random.choices("0123456789", k=13))
     client_email = faker.company_email()
+    currency = random.choice(settings.currencies)
 
     item_count = random.randint(settings.min_items, settings.max_items)
     item_descriptions = random.choices(DEFAULT_ITEMS, k=item_count)
@@ -92,6 +94,7 @@ def generate_one(settings: Settings, faker: Faker) -> tuple[str, bytes]:
         ein=ein,
         client_email=client_email,
         invoice_date=now.date().isoformat(),
+        currency=currency,
         items=items,
     )
     return file_name, xml_bytes

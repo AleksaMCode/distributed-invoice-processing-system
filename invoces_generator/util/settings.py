@@ -13,6 +13,7 @@ class Settings:
     output_dir: Path
     timezone: str
     sleep_seconds: float
+    currencies: list[str]
     min_items: int
     max_items: int
     min_qty: int
@@ -38,10 +39,14 @@ def load_settings() -> Settings:
     if not output_dir.is_absolute():
         output_dir = (REPO_ROOT / output_dir).resolve()
 
+    raw_currencies = _env("CURRENCIES", "BAM,EUR,USD,CHF,GBP")
+    currencies = [part.strip().upper() for part in raw_currencies.split(",") if part.strip()]
+
     settings = Settings(
         output_dir=output_dir,
         timezone=_env("TIMEZONE", "Europe/Paris"),
         sleep_seconds=float(_env("SLEEP_SECONDS", "1")),
+        currencies=currencies,
         min_items=int(_env("MIN_ITEMS", "1")),
         max_items=int(_env("MAX_ITEMS", "6")),
         min_qty=int(_env("MIN_QTY", "1")),
@@ -62,5 +67,7 @@ def load_settings() -> Settings:
         raise ValueError("Invalid unit price range configuration")
     if settings.sleep_seconds < 0:
         raise ValueError("SLEEP_SECONDS must be >= 0")
+    if not settings.currencies:
+        raise ValueError("CURRENCIES must contain at least one currency")
 
     return settings
