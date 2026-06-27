@@ -1,0 +1,39 @@
+plugins {
+    id 'application'
+    id 'com.diffplug.spotless' version '6.25.0'
+}
+
+group = 'com.dips'
+version = '0.0.1'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(26)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.github.cdimascio:dotenv-java:3.2.0'
+    implementation 'org.slf4j:slf4j-api:2.0.13'
+    implementation 'commons-validator:commons-validator:1.9.0'
+    runtimeOnly 'org.slf4j:slf4j-simple:2.0.13'
+}
+
+application {
+    mainClass = 'com.dips.validator.ValidatorApplication'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+spotless {
+    java {
+        target 'src/**/*.java'
+        googleJavaFormat('1.35.0')
+    }
+}
