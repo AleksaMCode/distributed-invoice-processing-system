@@ -40,7 +40,9 @@ def load_settings() -> Settings:
         output_dir = (REPO_ROOT / output_dir).resolve()
 
     raw_currencies = _env("CURRENCIES", "BAM,EUR,USD,CHF,GBP")
-    currencies = [part.strip().upper() for part in raw_currencies.split(",") if part.strip()]
+    currencies = [
+        part.strip().upper() for part in raw_currencies.split(",") if part.strip()
+    ]
 
     settings = Settings(
         output_dir=output_dir,

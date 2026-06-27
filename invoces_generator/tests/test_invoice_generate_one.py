@@ -53,7 +53,9 @@ class TestGenerateOne(TestCase):
         )
         self.faker = _FakeFaker()
         self._tz_marker = object()
-        self.zoneinfo_patcher = patch("invoice.invoice.ZoneInfo", return_value=self._tz_marker)
+        self.zoneinfo_patcher = patch(
+            "invoice.invoice.ZoneInfo", return_value=self._tz_marker
+        )
         self.datetime_patcher = patch("invoice.invoice.datetime")
         self.mock_zoneinfo = self.zoneinfo_patcher.start()
         self.mock_datetime = self.datetime_patcher.start()
