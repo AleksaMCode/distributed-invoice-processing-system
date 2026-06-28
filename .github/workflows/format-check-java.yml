@@ -6,12 +6,14 @@ on:
     paths:
       - "watcher_service/**"
       - "validator_service/**"
+      - "parser_service/**"
       - ".github/workflows/format-check-java.yml"
   push:
     branches: [master]
     paths:
       - "watcher_service/**"
       - "validator_service/**"
+      - "parser_service/**"
       - ".github/workflows/format-check-java.yml"
 
 
@@ -36,6 +38,7 @@ jobs:
         run: |
           chmod +x watcher_service/gradlew
           chmod +x validator_service/gradlew
+          chmod +x parser_service/gradlew
 
       - name: Spotless format check (watcher)
         working-directory: watcher_service
@@ -43,4 +46,8 @@ jobs:
 
       - name: Spotless format check (validator)
         working-directory: validator_service
+        run: ./gradlew spotlessCheck
+
+      - name: Spotless format check (parser)
+        working-directory: parser_service
         run: ./gradlew spotlessCheck
