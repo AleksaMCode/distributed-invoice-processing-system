@@ -1,19 +1,22 @@
 # 97 108 101 107 115 97
 WATCHER_DIR := watcher_service
 VALIDATOR_DIR := validator_service
+PARSER_DIR := parser_service
 GENERATOR_DIR := invoces_generator
 
 ifeq ($(OS),Windows_NT)
 	GRADLEW := $(WATCHER_DIR)\gradlew.bat
 	VALIDATOR_GRADLEW := $(VALIDATOR_DIR)\gradlew.bat
+	PARSER_GRADLEW := $(PARSER_DIR)\gradlew.bat
 	PYTHON := py -3
 else
 	GRADLEW := $(WATCHER_DIR)/gradlew
 	VALIDATOR_GRADLEW := $(VALIDATOR_DIR)/gradlew
+	PARSER_GRADLEW := $(PARSER_DIR)/gradlew
 	PYTHON := python3
 endif
 
-.PHONY: watcher-build watcher-run watcher-format watcher-test validator-build validator-run validator-format validator-test generator-install generator-run precommit-install generator-format generator-test format test
+.PHONY: watcher-build watcher-run watcher-format watcher-test validator-build validator-run validator-format validator-test parser-build parser-run parser-format parser-test generator-install generator-run precommit-install generator-format generator-test format test
 
 watcher-build:
 ifeq ($(OS),Windows_NT)
@@ -135,6 +138,66 @@ else
 	fi
 endif
 
+parser-build:
+ifeq ($(OS),Windows_NT)
+	@if exist "$(PARSER_GRADLEW)" ( \
+		"$(PARSER_GRADLEW)" -p "$(PARSER_DIR)" build \
+	) else ( \
+		gradle -p "$(PARSER_DIR)" build \
+	)
+else
+	@if [ -f "$(PARSER_GRADLEW)" ]; then \
+		"$(PARSER_GRADLEW)" -p "$(PARSER_DIR)" build; \
+	else \
+		gradle -p "$(PARSER_DIR)" build; \
+	fi
+endif
+
+parser-run:
+ifeq ($(OS),Windows_NT)
+	@if exist "$(PARSER_GRADLEW)" ( \
+		"$(PARSER_GRADLEW)" -p "$(PARSER_DIR)" run \
+	) else ( \
+		gradle -p "$(PARSER_DIR)" run \
+	)
+else
+	@if [ -f "$(PARSER_GRADLEW)" ]; then \
+		"$(PARSER_GRADLEW)" -p "$(PARSER_DIR)" run; \
+	else \
+		gradle -p "$(PARSER_DIR)" run; \
+	fi
+endif
+
+parser-format:
+ifeq ($(OS),Windows_NT)
+	@if exist "$(PARSER_GRADLEW)" ( \
+		"$(PARSER_GRADLEW)" -p "$(PARSER_DIR)" spotlessApply \
+	) else ( \
+		gradle -p "$(PARSER_DIR)" spotlessApply \
+	)
+else
+	@if [ -f "$(PARSER_GRADLEW)" ]; then \
+		"$(PARSER_GRADLEW)" -p "$(PARSER_DIR)" spotlessApply; \
+	else \
+		gradle -p "$(PARSER_DIR)" spotlessApply; \
+	fi
+endif
+
+parser-test:
+ifeq ($(OS),Windows_NT)
+	@if exist "$(PARSER_GRADLEW)" ( \
+		"$(PARSER_GRADLEW)" -p "$(PARSER_DIR)" test \
+	) else ( \
+		gradle -p "$(PARSER_DIR)" test \
+	)
+else
+	@if [ -f "$(PARSER_GRADLEW)" ]; then \
+		"$(PARSER_GRADLEW)" -p "$(PARSER_DIR)" test; \
+	else \
+		gradle -p "$(PARSER_DIR)" test; \
+	fi
+endif
+
 generator-install:
 	@$(PYTHON) -m pip install -r "$(GENERATOR_DIR)/requirements.txt"
 
@@ -150,9 +213,11 @@ generator-test:
 test:
 	@$(MAKE) watcher-test
 	@$(MAKE) validator-test
+	@$(MAKE) parser-test
 	@$(MAKE) generator-test
 
 format:
 	@$(MAKE) watcher-format
 	@$(MAKE) validator-format
+	@$(MAKE) parser-format
 	@$(MAKE) generator-format
